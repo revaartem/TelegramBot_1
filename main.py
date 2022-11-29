@@ -1,5 +1,13 @@
-def hello_git():
-    return 'Hello, Git!'
+
+import telebot
+
+bot = telebot.TeleBot('token')
 
 
-print(hello_git())
+@bot.message_handler(content_types=["text"])
+def echo(message):
+    bot.send_message(message.chat.id, message.text)
+
+
+if __name__ == '__main__':
+    bot.infinity_polling()
