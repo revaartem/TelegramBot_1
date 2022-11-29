@@ -1,5 +1,5 @@
 def hello_git():
-    print('Hello, Git!')
+    return 'Hello, Git!'
 
 
-hello_git()
+print(hello_git())
