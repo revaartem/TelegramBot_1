@@ -1,10 +1,18 @@
+
 from flask import Flask, request
 import telebot
 import os
 
+
+import telebot
+
+bot = telebot.TeleBot('token')
+
+
 app = Flask(__name__)
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
+
 
 @bot.message_handler(commands=['start'])
 def message_start(message):
@@ -29,3 +37,12 @@ def message_text(message):
         bot.send_message(message.chat.id, 'Героям Слава!')
     elif message.lower().startswith('слава нації'):
         bot.send_message(message.chat.id, 'Смерть ворогам! Україна понад усе!')
+
+@bot.message_handler(content_types=["text"])
+def echo(message):
+    bot.send_message(message.chat.id, message.text)
+
+
+if __name__ == '__main__':
+    bot.infinity_polling()
+
