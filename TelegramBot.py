@@ -1,22 +1,19 @@
 
-from flask import Flask, request
+from flask import Flask
 import telebot
+import config
 import os
 
 
-import telebot
-
-bot = telebot.TeleBot('token')
-
-
-app = Flask(__name__)
-TOKEN = os.environ.get('TOKEN')
-bot = telebot.TeleBot(TOKEN)
+# app = Flask(__name__)
+# TOKEN = os.environ.get('TOKEN')
+bot = telebot.TeleBot(config.token)
 
 
 @bot.message_handler(commands=['start'])
 def message_start(message):
     bot.send_message(message.chat.id, 'Hello, user!')
+
 
 @bot.message_handler(commands=['shelters'])
 def message_start(message):
@@ -31,6 +28,7 @@ def message_start(message):
 
         bot.send_message(message.chat.id, 'Список укрытий', reply_markup=keyboard)
 
+
 @bot.message_handler(func=lambda x: x.text.lower().startswith('слава'))
 def message_text(message):
     if message.lower().startswith('слава україні'):
@@ -38,11 +36,5 @@ def message_text(message):
     elif message.lower().startswith('слава нації'):
         bot.send_message(message.chat.id, 'Смерть ворогам! Україна понад усе!')
 
-@bot.message_handler(content_types=["text"])
-def echo(message):
-    bot.send_message(message.chat.id, message.text)
 
-
-if __name__ == '__main__':
-    bot.infinity_polling()
-
+bot.polling(none_stop=True)
